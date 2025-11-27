@@ -14,7 +14,7 @@
             color: #262626;
             background-color: #f7f7f7;
             line-height: 1.6;
-            /* Default padding, adjusted in media query for mobile */
+           
             padding-bottom: 0; 
         }
 
@@ -43,67 +43,66 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Initial state for lazy-loaded images */
+          
             opacity: 0.1;
             transition: opacity 0.8s ease-in-out;
         }
 
-        /* Class applied by JS once the image is loaded */
+       
         .photo-card img.loaded {
             opacity: 1;
         }
 
-        /* Hero Background Styling */
+       
         #page-home .hero-background {
-            /* Using a descriptive placeholder image for the hero section */
+          
             background-image: url('bg.png');
             background-size: cover;
             background-position: center;
         }
 
-        /* === MEDIA QUERIES FOR MOBILE RESPONSIVENESS (max-width: 767px) === */
+       
 
-        /* 1. Mobile Navigation: Hidden by default (desktop) */
         .mobile-nav {
             display: none;
         }
 
-        /* 2. Desktop Navigation: Shown by default (desktop) */
+      
         .desktop-nav {
-            display: flex; /* Tailwind's default md:flex is used but we ensure it's flex by default */
+            display: flex; 
         }
         
-        /* Apply media queries for screens smaller than the 'md' breakpoint (768px) */
+       
         @media (max-width: 767px) {
-            /* Show the mobile nav bar */
+        
             .mobile-nav {
                 display: flex;
             }
-            /* Hide the top/desktop navigation bar */
+           
             .desktop-nav {
                 display: none !important; 
             }
-            /* Add padding to the body bottom to prevent content from being hidden by the fixed bottom nav */
+          
             body {
-                padding-bottom: 60px; /* Adjust this value if the mobile-nav height changes */
+                padding-bottom: 60px; 
             }
-            /* Ensure the header does not conflict with the bottom nav on scroll */
+          
             header {
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
-            /* Style for mobile nav links (no icons as requested, just text) */
+           
             .mobile-nav a {
                 padding: 0.5rem 0.75rem;
                 display: block;
                 text-align: center;
-                border-radius: 0.375rem; /* rounded-md */
-                font-weight: 500; /* medium */
+                border-radius: 0.375rem;
+                font-weight: 500; 
                 line-height: 1.2;
             }
             .mobile-nav .active-link {
-                background-color: #e5e5e5; /* bg-gray-200 for active state */
-                color: #1f2937; /* text-gray-800 */
-                font-weight: 600; /* semi-bold */
+                background-color: #e5e5e5; 
+                color: #1f2937; 
+                font-weight: 600; 
             }
         }
     </style>
@@ -362,36 +361,36 @@
     <script>
 
         function showPage(pageId) {
-            // Remove active class from all page containers
+           
             document.querySelectorAll(".page").forEach(page => {
                 page.classList.remove("active");
             });
             
-            // Remove all active styles from ALL nav links
+            
             document.querySelectorAll(".nav-link").forEach(link => {
-                // Desktop nav styles
+                
                 link.classList.remove("text-gray-900", "font-bold", "border-gray-900");
-                // Mobile nav styles
+               
                 link.classList.remove("active-link", "text-gray-900", "text-gray-700");
-                link.classList.add("text-gray-700"); // Reset mobile link color
+                link.classList.add("text-gray-700"); 
             });
 
 
-            // Show the new page
+           
             const newPage = document.getElementById(`page-${pageId}`);
             if (newPage) {
                 newPage.classList.add("active");
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                // Apply active styling to ALL corresponding nav link(s) (both desktop and mobile)
+               
                 document.querySelectorAll(`[data-page="${pageId}"]`).forEach(link => {
                     if (link.closest('.desktop-nav')) {
-                        // Desktop active style (top header)
+                       
                         link.classList.add("text-gray-900", "font-bold", "border-gray-900");
                         link.classList.remove("border-transparent");
                     } else if (link.closest('.mobile-nav')) {
-                        // Mobile active style (fixed bottom nav)
+                      
                         link.classList.add("active-link", "text-gray-900");
                         link.classList.remove("text-gray-700");
                     }
@@ -399,7 +398,7 @@
 
 
                 if (pageId === 'works') {
-                    // Re-trigger lazy loading for the works page
+                  
                     setTimeout(() => lazyLoadImages(newPage.id), 50);
                 }
             }
@@ -408,7 +407,7 @@
             const container = document.getElementById(containerId);
             if (!container) return;
 
-            // Select only images that haven't been loaded yet
+           
             const lazyImages = container.querySelectorAll(".lazy-image:not(.loaded)");
 
 
@@ -422,7 +421,7 @@
                         const dataSrc = image.getAttribute("data-src");
 
                         if (dataSrc) {
-                            // Ensure src is only set once
+                          
                             image.src = dataSrc;
 
 
@@ -434,7 +433,7 @@
 
                             image.onerror = () => {
                                 console.error("Failed to load image:", dataSrc);
-                                // Fallback image path (or placeholder)
+                               
                                 image.src = 'https://placehold.co/800x1200/cc0000/ffffff?text=Load+Error';
                                 image.classList.add("loaded");
                             };
@@ -457,15 +456,13 @@
             const successBox = document.getElementById('contact-success');
             const submitButton = document.getElementById('submit-button');
 
-            // Temporarily change button state
             submitButton.innerText = 'Sent!';
             submitButton.classList.add('bg-green-600', 'hover:bg-green-700');
             submitButton.classList.remove('bg-gray-800', 'hover:bg-gray-600');
             submitButton.disabled = true;
 
             successBox.classList.remove('hidden');
-            
-            // Reset form and button after 5 seconds
+    
             setTimeout(() => {
                 document.getElementById('name').value = '';
                 document.getElementById('email').value = '';
@@ -480,7 +477,7 @@
 
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Universal listener for all navigation links (desktop and mobile)
+           
             document.querySelectorAll(".nav-link").forEach(link => {
                 link.addEventListener("click", (e) => {
                     e.preventDefault();
@@ -492,7 +489,6 @@
             });
 
 
-            // Initial page load and setup
             showPage('home');
         });
     </script>
